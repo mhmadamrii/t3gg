@@ -27,6 +27,32 @@ export const userRouter = createTRPCRouter({
       };
     }),
 
+  getExternalInfiniteUsers: publicProcedure
+    .input(z.object({ limit: z.number(), cursor: z.number().optional() }))
+    .query(async ({ ctx, input }) => {
+      const { limit, cursor } = input;
+      console.log("cursor", cursor);
+
+      // Fetch data from external API
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
+      const users = await res.json();
+
+      // Determine start index for pagination
+      const startIdx = cursor ? cursor : 0;
+
+      // Slice users array based on the limit and cursor
+      const paginatedUsers = users.slice(startIdx, startIdx + limit);
+
+      // Calculate the next cursor based on the slice (if more users exist)
+      const nextCursor =
+        startIdx + limit < users.length ? startIdx + limit : null;
+
+      return {
+        users: paginatedUsers,
+        nextCursor,
+      };
+    }),
+
   create: publicProcedure
     .input(z.object({ name: z.string().min(1), email: z.string().email() }))
     .mutation(async ({ ctx, input }) => {
