@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { api } from "~/trpc/react";
@@ -25,6 +26,9 @@ export default function Page() {
 
   return (
     <section className="flex flex-col gap-4">
+      <Link href="/" className="block">
+        home
+      </Link>
       {data?.pages.map((page, idx) => (
         <div key={idx}>
           {page.users?.map((u) => (

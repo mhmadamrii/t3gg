@@ -1,5 +1,6 @@
 import { api } from "~/trpc/server";
 import { AddUser } from "./_components/add-user";
+import Link from "next/link";
 
 export default async function Page() {
   const users = await api.user.getUsers();
@@ -8,6 +9,9 @@ export default async function Page() {
     <main className="flex min-h-screen w-full flex-col items-center justify-center bg-black text-white">
       <h1>Hello World</h1>
       <AddUser />
+      <Link href="/infinite" className="block">
+        infinite
+      </Link>
       <section className="flex flex-col gap-4">
         {users.map((u) => (
           <div key={u.id} className="h-24 border p-4">
