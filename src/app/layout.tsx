@@ -12,6 +12,25 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+const links = [
+  {
+    name: "Home",
+    href: "/",
+  },
+  {
+    name: "External Infinite Scroll",
+    href: "/external",
+  },
+  {
+    name: "Internal Infinite Scroll",
+    href: "/internal",
+  },
+  {
+    name: "Invalidate problem",
+    href: "/invalidate",
+  },
+] as const;
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -20,9 +39,11 @@ export default function RootLayout({
       <body>
         <TRPCReactProvider>
           <nav className="flex items-center justify-center gap-4">
-            <Link href="/">Home</Link>
-            <Link href="/external">External Infinite Scroll</Link>
-            <Link href="/internal">Internal Infinite Scroll</Link>
+            {links.map((link) => (
+              <Link key={link.name} href={link.href}>
+                {link.name}
+              </Link>
+            ))}
           </nav>
           {children}
         </TRPCReactProvider>
